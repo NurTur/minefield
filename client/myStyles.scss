@@ -1,0 +1,42 @@
+body {
+  background-color: skyblue;
+  color: black;
+  width: 100vw;
+  height: 100vh;  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+
+
+  #first_container
+  {
+    
+    font-size: 2px;
+    width: 468px;
+    height: 100%;
+    background-color: skyblue;
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 2px;
+    
+   
+  @for $y from 0 through 8 {
+  @for $x from 0 through 8 {
+  
+    #row_#{$x}column_#{$y} {   
+    width:50px;
+    height: 50px; 
+    background-color: grey;
+    border-bottom: solid 2px black;
+    border-right: solid 2px black;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
+  } } 
+} }
+  
+}
+
+

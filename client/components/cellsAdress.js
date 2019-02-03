@@ -8,7 +8,7 @@ export function CellsAdress(level) {
     const cells = [];
     [...Array(row).keys()].forEach(x => {
         return ([...Array(column).keys()].forEach(y => {
-            cells.push({ adress: `row_${String(x)}column_${String(y)}`, value: "" });
+            cells.push({ adress: `row_${String(x)}column_${String(y)}`, value: "", key: `${String(x)}_${String(y)}`, flag: false });
         }));
     })
     return cells;

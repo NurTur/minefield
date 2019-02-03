@@ -22,7 +22,10 @@ body {
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     grid-gap: 2px;
     
-   
+   #disabledButton
+   {
+    background-color: white; 
+   }
   @for $y from 0 through 8 {
   @for $x from 0 through 8 {
   
@@ -33,6 +36,10 @@ body {
     border-bottom: solid 2px black;
     border-right: solid 2px black;
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+      display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
 
   } } 
 } }

@@ -1,57 +1,86 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { CellsAdress } from "./components/cellsAdress";
+
 import Flag from "./components/flag";
+import { OpenCells } from "./container/openCells";
+import { OpenMines } from "./container/openMines";
+import { CellsAdress } from "./container/cellsAdress";
+import ViewMines from "./container/viewMines";
+
+import EncryptCode from "./services/encryptCells";
+
 
 import "./scss/myStyles.scss";
 import "./scss/flag.scss";
 
 
 
+
 class App extends React.Component {
-  state = { cells: [] }
+  state = { cells: [], EncryptCells: [], mine: [] }
 
   componentWillMount() {
     this.setState({ cells: CellsAdress("first_level") })
   }
 
-  viewButton(item, index, event) {
+  componentDidMount() { this.fieldEncrypt(); }
+
+  fieldEncrypt = async () => {
+    const EncryptCells = await EncryptCode("first_level");
+    console.log(EncryptCells);
+    this.setState({ EncryptCells });
+  };
+
+  viewButton(X, Y, event) {
     event.preventDefault();
+    let oldFlag = this.state.cells[X][Y].flag;
+    let cells = [...this.state.cells];
     if (event.type === 'click') {
-      const cells = [...this.state.cells];
-      cells[index] = { adress: "disabledButton", value: "Empty", key: item.key, flag: !item.flag };
-      this.setState({ cells });
+      cells[X][Y] = { status: "disabledButton", flag: oldFlag };
+      if (this.state.EncryptCells[X][Y] === "") {
+        OpenCells(cells, this.state.EncryptCells);
+      }
+      else if (this.state.EncryptCells[X][Y] === "mine") {
+        OpenMines(cells, this.state.EncryptCells);
+        this.setState({ mine: [X, Y] })
+      }
     }
     else if (event.type === 'contextmenu') {
-      const cells = [...this.state.cells];
-      cells[index].flag = !item.flag;
-      this.setState({ cells });
+      cells[X][Y] = { status: "activeButton", flag: !oldFlag };
     }
+    this.setState({ cells });
   }
 
 
-  handleClick = (item, index) => {
-    if (item.value === "" && item.flag === false) {
+  handleClick(item, X, Y) {
+    const key = `${X}_${Y}`;
+
+    if (item.status === "activeButton" && item.flag === false) {
       return <button
-        onClick={(event) => this.viewButton(item, index, event)}
-        onContextMenu={(event) => this.viewButton(item, index, event)}
-        id={item.adress} key={item.key} ></button >;
+        onClick={(event) => this.viewButton(X, Y, event)}
+        onContextMenu={(event) => this.viewButton(X, Y, event)}
+        className={item.status} key={key} ></button >;
     }
-    else if (item.value === "" && item.flag) {
+    else if (item.status === "activeButton" && item.flag) {
+
       return <button
-        onContextMenu={(event) => this.viewButton(item, index, event)}
-        id={item.adress} key={item.key} ><Flag /></button >;
+        onContextMenu={(event) => this.viewButton(X, Y, event)}
+        className={item.status} key={key} ><Flag /></button >;
     }
-    else { return <button id={item.adress} key={item.key} disabled></button> }
+    else {
+      const value = this.state.EncryptCells[X][Y];
+      return <ViewMines value={value} mine={[...this.state.mine, X, Y]} item={item} key={key} />
+    }
   }
+
 
 
 
 
   render() {
-    const { cells } = this.state;
-    console.log(cells);
-    return (<div id="first_container">{cells.map((d, i) => this.handleClick(d, i))}</div>)
+
+    return (<div id="first_container">{this.state.cells.map((d, x) => d.map((d2, y) => this.handleClick(d[y], x, y)))}
+    </div>)
   }
 }
 

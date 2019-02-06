@@ -28,7 +28,16 @@ function ViewMines(props) {
         }
     }
     else if (value > 0) {
-        return <button className={item.status} key={key} disabled><h1 className="picture">{value}</h1></button>
+        let color;
+        switch (value) {
+            case 1: color = "green"; break;
+            case 2: color = "blue"; break;
+            case 3: color = "red"; break;
+            case 4: color = "brown"; break;
+            default: color = "grey"; break;
+        };
+
+        return <button className={item.status} style={{ color }} key={key} disabled><h1 className="picture">{value}</h1></button>
     }
     else {
         return <button className={item.status} key={key} disabled></button>

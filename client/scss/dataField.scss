@@ -1,0 +1,24 @@
+.header {
+  background: linear-gradient(to bottom, hsl(231, 74%, 60%) 0%, hsl(231, 69%, 85%) 100%);
+  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+ 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items:center;
+  .container {
+    font-weight: 1000;
+    font-family: monospace,'Courier New', Courier;
+    font-size:20px;
+    width:480px;
+    height: 100%;
+    p {
+      margin-top: 10px;
+    }   
+  }   
+}

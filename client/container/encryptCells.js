@@ -1,5 +1,3 @@
-import React from "react";
-
 export default (level) => {
     let row, column, countMines;
     if (level === "first_level") {

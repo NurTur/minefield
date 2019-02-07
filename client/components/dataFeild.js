@@ -16,14 +16,19 @@ class DataField extends React.Component {
             this.setState({
                 time: this.state.time + 1
             });
-        }
+        } else
+            if (this.props.Reducer.Timer === "STOP") {
+                this.setState({
+                    time: 0
+                });
+            }
     }
 
 
     render() {
 
-        return (<div className="header">
-            <header className="container">
+        return (<div className="dataHeader">
+            <header className="dataContent">
                 <p>Mine : {this.props.Reducer.Mine}</p>
                 <p>Move : {this.props.Reducer.Move}</p>
                 <p>Time : {this.state.time}</p>

@@ -1,12 +1,52 @@
-body 
-{
-  position: fixed;
-  background-color: hsl(231, 69%, 85%);
-  color: black;
-  width: 100%;
-  height: 100%; 
+body {
+ position: fixed;
+ background-color: hsl(231, 69%, 85%);
+.container {
+    height: 100vh;
+    width: 100vw;
+    background: LightGray;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "advert header empty"
+      "advert content empty"
+      "advert footer empty";
+    
+    .header {
+    background-color: hsl(231, 69%, 85%);
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    grid-area: header;
+    height:80px;
+    }
+  
+  .advert {
+    background: LightSalmon;
+    grid-area: advert;
+    min-width: 250px;
+    width: 20vw;
+  }
+  
+  .content {
+  grid-area: content;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items:center;
+  background-color: hsl(231, 69%, 85%);
+  }
+  
+  .footer {
+    background: lightpink;
+    grid-area: footer;
+    height:100px;
+  }  
+  .empty {
+    background: red;
+    grid-area: empty;
+    width:20vw;
+  }
+  }
+ 
 }

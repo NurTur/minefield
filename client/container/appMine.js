@@ -1,8 +1,6 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { SetMINE, SetMOVE, SetTIMER } from "../store/actions";
-
-
+import { SetMINE, SetMOVE, SetTIMER, SetBASIC } from "../store/actions";
 
 import React from 'react';
 import Flag from "../components/flag";
@@ -19,14 +17,25 @@ import EncryptCode from "../services/encryptCells";
 class AppMine extends React.Component {
     state = { cells: [], EncryptCells: [], mine: [], passiv: false }
 
-    componentWillMount() {
-        this.setState({ cells: CellsAdress("first_level") })
+    componentWillMount() { this.setState({ cells: CellsAdress() }) }
+    componentDidMount() { this.fieldEncrypt(this.props.Reducer.Count); }
+    componentWillUpdate(nextProps, nextState) {
+        if (this.props.Reducer.Count !== nextProps.Reducer.Count) {
+            this.props.SetBASIC();
+            this.setState({ cells: CellsAdress(), mine: [], passiv: false });
+
+
+        }
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.Reducer.Count !== prevProps.Reducer.Count) {
+            this.fieldEncrypt(this.props.Reducer.Count);
+        }
     }
 
-    componentDidMount() { this.fieldEncrypt(); }
 
-    fieldEncrypt = async () => {
-        const EncryptCells = await EncryptCode("first_level");
+    fieldEncrypt = async (mine_count) => {
+        const EncryptCells = await EncryptCode(mine_count);
         console.log(EncryptCells);
         this.setState({ EncryptCells });
     };
@@ -38,8 +47,11 @@ class AppMine extends React.Component {
         let cells = [...this.state.cells];
 
         if (event.type === 'click') {
-            cells[X][Y] = { status: "disabledButton", flag: oldFlag };
             this.props.SetTIMER('START');
+            cells[X][Y] = { status: "disabledButton", flag: oldFlag };
+
+
+            console.log(this.props.Reducer);
             if (this.state.EncryptCells[X][Y] === "") {
                 OpenCells(cells, this.state.EncryptCells);
             }
@@ -49,23 +61,27 @@ class AppMine extends React.Component {
                 this.setState({ mine: [X, Y], passiv: true })
             }
         }
-        else if (event.type === 'contextmenu') {
+        else if (event.type === 'contextmenu' && this.state.passiv === false) {
             cells[X][Y] = { status: "activeButton", flag: !oldFlag };
         }
+
 
         this.setState({ cells });
 
         // Redux store
+        if (this.props.Reducer.Timer === "START" || this.props.Reducer.Timer === "STOP") {
+            if (oldFlag === false && cells[X][Y].flag) { this.props.SetMINE(this.props.Reducer.Mine + 1); }
+            else if (oldFlag && cells[X][Y].flag === false) { this.props.SetMINE(this.props.Reducer.Mine - 1); }
+            this.props.SetMOVE(this.props.Reducer.Move + 1);
 
-        if (oldFlag === false && cells[X][Y].flag) { this.props.SetMINE(this.props.Reducer.Mine + 1); }
-        else if (oldFlag && cells[X][Y].flag === false) { this.props.SetMINE(this.props.Reducer.Mine - 1); }
-        this.props.SetMOVE(this.props.Reducer.Move + 1);
-
-
-        if (WinTest(cells) === 71) {
-            this.props.SetTIMER('WIN');
-            this.setState({ passiv: true });
+            if (WinTest(cells) === 100 - parseInt(this.props.Reducer.Count)) {
+                this.setState({ passiv: true });
+                this.props.SetTIMER('WIN');
+            }
         }
+
+
+
     }
 
 
@@ -105,7 +121,7 @@ export default connect(
     dispatch =>
         bindActionCreators(
             {
-                SetMINE, SetMOVE, SetTIMER
+                SetMINE, SetMOVE, SetTIMER, SetBASIC
             },
             dispatch
         )

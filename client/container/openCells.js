@@ -2,8 +2,8 @@ export function OpenCells(cells, EncryptCells) {
     let test;
     do {
         test = true;
-        [...Array(cells.length).keys()].forEach(x => {
-            return ([...Array(cells[x].length).keys()].forEach(y => {
+        [...Array(10).keys()].forEach(x => {
+            return ([...Array(10).keys()].forEach(y => {
                 if (EncryptCells[x][y] === "" && cells[x][y].status === "disabledButton") {
                     [x - 1, x, x + 1].forEach(i => {
                         return ([y - 1, y, y + 1].forEach(j => {

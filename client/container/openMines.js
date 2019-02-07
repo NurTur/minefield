@@ -1,6 +1,6 @@
 export function OpenMines(cells, EncryptCells) {
-    [...Array(cells.length).keys()].forEach(x => {
-        return ([...Array(cells[x].length).keys()].forEach(y => {
+    [...Array(10).keys()].forEach(x => {
+        return ([...Array(10).keys()].forEach(y => {
             if (EncryptCells[x][y] === "mine") {
                 cells[x][y] = { status: "disabledButton", flag: false }
             }

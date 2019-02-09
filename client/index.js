@@ -1,21 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { Provider } from "react-redux";
 import BaseReducer from "./store/BaseReducer";
 import AppMine from "./container/appMine";
 import DataField from "./components/dataFeild";
 import EnterCountMines from "./components/enterCountMines";
+import ViewFooter from "./components/viewFooter";
 
 import "./scss/index.scss";
 import "./scss/appMine.scss";
 import "./scss/flag.scss";
 import "./scss/dataField.scss";
+import "./scss/enterCountMines.scss";
+import "./scss/viewFooter.scss";
 
+const store = createStore(
+  BaseReducer,
+  applyMiddleware(thunk)
+);
 
-let store = createStore(BaseReducer);
-//store.subscribe(() => console.log(store.getState()));
-
+store.subscribe(() => console.log(store.getState()))
 class Main extends React.Component {
   render() {
     return (
@@ -23,13 +29,15 @@ class Main extends React.Component {
         <div className="header"><div><DataField /></div></div>
         <div className="advert"><div><EnterCountMines /></div></div>
         <div className="content"><div><AppMine /></div></div>
-        <div className="footer"></div>
+        <div className="footer"><div><ViewFooter /></div></div>
         <div className="empty"></div>
       </div>
     )
   }
 }
 
-ReactDOM.render(<Provider store={store}>
-  <Main />
-</Provider>, document.getElementById('app'));
+
+ReactDOM.render(<Provider store={store}><Main /></Provider>,
+  document.getElementById("app")
+)
+

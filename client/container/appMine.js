@@ -1,6 +1,6 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { SetMINE, SetMOVE, SetTIMER, SetBASIC } from "../store/actions";
+import { SetMINE, SetMOVE, SetTIMER, SetBASIC } from "../store/actions/field";
 
 import React from 'react';
 import Flag from "../components/flag";
@@ -50,15 +50,12 @@ class AppMine extends React.Component {
             this.props.SetTIMER('START');
             cells[X][Y] = { status: "disabledButton", flag: oldFlag };
 
-
-            console.log(this.props.Reducer);
             if (this.state.EncryptCells[X][Y] === "") {
                 OpenCells(cells, this.state.EncryptCells);
             }
             else if (this.state.EncryptCells[X][Y] === "mine") {
                 OpenMines(cells, this.state.EncryptCells);
-                this.props.SetTIMER('BOOM');
-                this.setState({ mine: [X, Y], passiv: true })
+                this.props.SetTIMER('BOOM').then(() => this.setState({ mine: [X, Y], passiv: true }))
             }
         }
         else if (event.type === 'contextmenu' && this.state.passiv === false) {
@@ -75,13 +72,9 @@ class AppMine extends React.Component {
             this.props.SetMOVE(this.props.Reducer.Move + 1);
 
             if (WinTest(cells) === 100 - parseInt(this.props.Reducer.Count)) {
-                this.setState({ passiv: true });
-                this.props.SetTIMER('WIN');
+                this.props.SetTIMER('WIN').then(() => this.setState({ passiv: true }));
             }
         }
-
-
-
     }
 
 

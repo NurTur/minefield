@@ -9,7 +9,7 @@ body {
     grid-template-columns: auto 1fr auto;
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
-      "advert header empty"
+      "advert  header empty"
       "advert content empty"
       "advert footer empty";
     
@@ -22,10 +22,12 @@ body {
     height:80px;
     }
   
+   
+
   .advert {
-    background: LightSalmon;
+    background-color: hsl(231, 69%, 85%);
     grid-area: advert;
-    min-width: 250px;
+    min-width: 206px;
     width: 20vw;
   }
   
@@ -43,7 +45,7 @@ body {
     height:100px;
   }  
   .empty {
-    background: red;
+     background-color: hsl(231, 69%, 85%);
     grid-area: empty;
     width:20vw;
   }

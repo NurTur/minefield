@@ -1,12 +1,11 @@
 .dataHeader
 {
- //background: linear-gradient(to bottom, hsl(231, 74%, 60%) 0%, hsl(231, 69%, 85%) 100%);
- width: 520px;
+  width: 520px;
 .dataContent
 {
     font-weight: 1000;
     font-family: monospace,'Courier New', Courier;
-    font-size:20px;
+    font-size:22px;
     display: grid;
     grid-template-columns: 1fr 1fr auto;
 }

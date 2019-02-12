@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { SetCOUNTMINE } from "../store/actions/field";
 import { SetUSER } from "../store/actions/user";
 
+import InsertItemDatabase from "../services/insertItemDatabase";
+
 class EnterCountMines extends React.Component {
     state = { count: 10, name: "" }
 
@@ -17,12 +19,15 @@ class EnterCountMines extends React.Component {
 
     handleChangeID(event) { this.setState({ name: event.target.value }); }
 
-    handleClick(event) {
+    handleClick = async (event) => {
         event.preventDefault();
 
         if (this.state.name !== "") {
+            const user = { name: this.state.name };
+            const result = await InsertItemDatabase(user);
 
-            const obj = { name: this.state.name, id: "5" };
+            console.log(result);
+            const obj = { name: this.state.name, id: "" };
 
             this.props.SetUSER(obj);
         }
@@ -38,12 +43,12 @@ class EnterCountMines extends React.Component {
                     <label htmlFor="ID">Enter name or ID  </label>
                     <input id="ID" type="text" value={this.state.name} onChange={this.handleChangeID.bind(this)} />
                     <br />
+
                     <label htmlFor="dropdown">Count of bombs</label>
                     <select id="dropdown" name="dropdown" value={this.state.count} onChange={this.handleChange.bind(this)} required>
                         {arr.map((d, i) => <option value={d} key={i}>{d}</option>)}
                     </select>
                     <br />
-
                     <button onClick={this.handleClick.bind(this)}>Submit</button>
                 </div>
             </fieldset>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><%=title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<link rel="stylesheet" type="text/css" media="screen" href='/public/style.css'>-->
+
+
+</head>
+
+<body>
+    <h1 class="border center">FCC Advanced Node and Express</h1>
+    <h2 class="center">Looks like this page is being rendered from Pug into HTML! <%=title %></h1>
+        <p><%=message %></p>
+
+        <% if(showLogin) {%>
+        </hr>
+        <p>Login Form</p>
+        <form action='/login' method='post'>
+            <div>
+                <label>Username :</label>
+                <input type='text' name='username' />
+                <label>Password :</label>
+                <input type='password' name='password' />
+            </div>
+            <input type='submit' value='Log In' />
+        </form>
+        <%} %>
+
+        <% if(showRegistration) {%>
+        </hr>
+        <p>Registration Form</p>
+        <form action='/register' method='post'>
+            <div>
+                <label>Username :</label>
+                <input type='text' name='username' />
+                <label>Password :</label>
+                <input type='password' name='password' />
+            </div>
+            <input type='submit' value='Register' />
+        </form>
+        <%} %>
+
+</body>
+
+</html>

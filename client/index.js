@@ -15,8 +15,7 @@ import "./scss/flag.scss";
 import "./scss/dataField.scss";
 import "./scss/enterCountMines.scss";
 import "./scss/viewFooter.scss";*/
-import PostRegister from "./services/postRegister";
-import PostLogin from "./services/postLogin";
+import FormClass from "./container/form";
 
 /*
 const store = createStore(
@@ -28,77 +27,51 @@ store.subscribe(() => console.log(store.getState()));*/
 
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Redirect } from 'react-router';
+import "./scss/form.scss";
 
-class Products extends React.Component {
-  render() {
-    return <h2>Товары</h2>;
-  }
-}
+class Profile extends React.Component {
+  state = { text: "Sign Up", id: "nav1" }
 
-class Home extends React.Component {
-  state = { username: "", password: "" }
-
-  handleName(event) { this.setState({ username: event.target.value }); }
-  handlePassword(event) { this.setState({ password: event.target.value }); }
-
-  register = async (obj) => {
-    try {
-      const result = await PostRegister(obj);
-      console.log(result);
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
-
-  login = async (obj) => {
-    try {
-      const result = await PostLogin(obj);
-      console.log(result);
-    }
-    catch (error) {
-      console.log(error);
-    }
-  }
-
-  handleLogin(event) {
+  handleClick(event) {
     event.preventDefault();
-    const { username, password } = this.state;
-    this.login({ username, password });
-  }
-
-  handleRegister(event) {
-    event.preventDefault();
-    const { username, password } = this.state;
-    this.register({ username, password });
+    if (this.state.id === "nav1") {
+      this.setState({ text: "Log In", id: "nav2" });
+    }
+    else { this.setState({ text: "Sign Up", id: "nav1" }); }
   }
 
   render() {
-    return (<div>
-      <hr />
-      <p>Login Form</p>
-      <form >
-        <div>
-          <label>Username :</label>
-          <input type='text' name='username' onChange={this.handleName.bind(this)} />
-          <label>Password :</label>
-          <input type='password' name='password' onChange={this.handlePassword.bind(this)} />
+    const { text, id } = this.state;
+    const formtext = (text === "Sign Up" ? "Log in for game" : "Register for game");
+
+    return <div className="container">
+      <header className="header">
+        <nav id={id} onClick={this.handleClick.bind(this)}>{text}</nav>
+      </header>
+      <main className="main">
+        <div className="box">
+          <section id="sec1"><p>Wellcome,</p><p>Please</p><p>{formtext}</p> </section>
+          <section id="sec2">
+
+
+            <form className="ui-form">
+              <div className="form-row">
+                <input type="text" id="email" required /><label htmlFor="email">USERNAME</label>
+              </div>
+              <div className="form-row">
+                <input type="password" id="password" required /><label htmlFor="password">PASSWORD</label>
+              </div>
+            </form>
+            <input type="submit" id="submit" value="LOG IN" />
+          </section>
         </div>
-        <button onClick={this.handleLogin.bind(this)}>Log in</button>
-      </form>
-      <hr />
-      <p>Registration Form</p>
-      <form >
-        <div>
-          <label>Username :</label>
-          <input type='text' name='username' onChange={this.handleName.bind(this)} />
-          <label>Password :</label>
-          <input type='password' name='password' onChange={this.handlePassword.bind(this)} />
-        </div>
-        <button onClick={this.handleRegister.bind(this)}>Register</button>
-      </form></div>)
+      </main>
+    </div>;
   }
 }
+
+
 
 class Main extends React.Component {
 
@@ -106,8 +79,8 @@ class Main extends React.Component {
     return (<Router>
       <div>
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/profile" component={Products} />
+          <Route exact path="/" component={Profile} />
+
         </Switch>
       </div>
     </Router>)

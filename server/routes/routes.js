@@ -2,33 +2,16 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 
 module.exports = function (app, USERS) {
+
   app.get('/', (req, res) => {
-    res.render('index', { title: 'Home page', message: 'Please login', showLogin: true, showRegistration: true });
+    res.status(200).send({ username: "" });
   });
 
   app.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
-    res.redirect('/profile');
+    res.status(200).send({ username: req.user.username, _id: req.user._id });
   });
-
-  function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.redirect('/');
-  };
-
-  app.get('/profile', ensureAuthenticated, (req, res) => {
-    res.render('profile', { username: req.user.username, title: 'Profile Page' });
-  });
-
-  app.get('/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
-  });
-
 
   app.post('/register', (req, res, next) => {
-    console.log(req.body.username, ' ', req.body.password);
     USERS.findOne({ username: req.body.username }, function (err, user) {
       if (err) {
         next(err);
@@ -47,13 +30,11 @@ module.exports = function (app, USERS) {
     })
   },
     passport.authenticate('local', { failureRedirect: '/' }),
-    (req, res, next) => { res.redirect('/profile'); }
+    (req, res, next) => { res.status(200).send({ username: req.user.username, _id: req.user._id }); }
   );
 
   app.use((req, res, next) => {
-    res.status(404)
-      .type('text')
-      .send('Not Found');
+    res.status(404).send({ username: "" });
   });
 
 }

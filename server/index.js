@@ -37,7 +37,7 @@ app.use(passport.session());
 mongoose.connect(DATABASE, { useNewUrlParser: true })
   .then(() => {
     console.log("MongoDB connected")
-    auth(app, USERS);
+    auth(USERS);
     routes(app, USERS);
 
     app.listen(PORT || 3000, () => {

@@ -1,10 +1,12 @@
 import React from 'react';
+import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { SetBASIC } from "../store/actions/field";
+
+
 
 class DataField extends React.Component {
-    state = {
-        time: 0
-    };
+    state = { count: 10, time: 0, name: "" }
 
     componentDidMount() {
         this.timerID = setInterval(() => this.tick(), 1000);
@@ -24,20 +26,33 @@ class DataField extends React.Component {
             }
     }
 
+    handleChange(event) {
+        const val = event.target.value;
+        this.setState({ count: val })
+        this.props.SetBASIC(val);
+        //this.props.SetCOUNTMINE(val).then(() => this.setState({ count: val }));
+        /*this.props.SetGAME("STARTGAME");*/
+    }
 
     render() {
 
-        return (<div className="dataHeader">
-            <header className="dataContent">
+        const arr = ["10", "15", "20", "25", "30", "35", "40"];
+        return (
+            <div id="dataOfField">
+                <label htmlFor="dropdown">Count of bombs </label>
+                <select id="dropdown" name="dropdown" value={this.state.count} onChange={this.handleChange.bind(this)} required>
+                    {arr.map((d, i) => <option value={d} key={i}>{d}</option>)}
+                </select>
                 <p>Mine : {this.props.Reducer.Mine}</p>
                 <p>Move : {this.props.Reducer.Move}</p>
                 <p>Time : {this.state.time}</p>
-            </header>
+            </div>
 
-        </div>)
+        )
     }
-}
+};
 
 
-export default connect(state => ({ Reducer: state.Reducer }))(DataField);
 
+export default connect(state => ({ Reducer: state.Reducer }),
+    dispatch => bindActionCreators({ SetBASIC }, dispatch))(DataField);

@@ -17,17 +17,27 @@ import EncryptCode from "../services/encryptCells";
 class AppMine extends React.Component {
     state = { cells: [], EncryptCells: [], mine: [], passiv: false }
 
+
+
+
     componentWillMount() { this.setState({ cells: CellsAdress() }) }
     componentDidMount() { this.fieldEncrypt(this.props.Reducer.Count); }
     componentWillUpdate(nextProps, nextState) {
         if (this.props.Reducer.Count !== nextProps.Reducer.Count) {
-            this.props.SetBASIC();
+            console.log("nur", nextProps);
+            //this.props.SetBASIC();
             this.setState({ cells: CellsAdress(), mine: [], passiv: false });
-
-
+            /*if (this.props.Reducer.Game === "STARTGAME") {
+                this.props.SetBASIC();
+                this.setState({ cells: CellsAdress(), mine: [], passiv: false });
+            }*/
         }
     }
     componentDidUpdate(prevProps, prevState) {
+        /*if (this.props.Reducer.Game === "STARTGAME") {
+            this.fieldEncrypt(this.props.Reducer.Count);
+            this.props.SetGAME("CONTINUE");
+        }*/
         if (this.props.Reducer.Count !== prevProps.Reducer.Count) {
             this.fieldEncrypt(this.props.Reducer.Count);
         }

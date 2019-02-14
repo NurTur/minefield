@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 module.exports = function (app, USERS) {
 
   app.get('/', (req, res) => {
-    res.status(200).send({ username: "" });
+    res.status(200).send({ username: "", _id: "X" });
   });
 
   app.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
@@ -34,7 +34,7 @@ module.exports = function (app, USERS) {
   );
 
   app.use((req, res, next) => {
-    res.status(404).send({ username: "" });
+    res.status(404).send({ username: "", _id: "X" });
   });
 
 }

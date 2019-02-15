@@ -1,0 +1,73 @@
+$font: "Roboto", Helvetica, Arial, sans-serif;
+@mixin flex(){ 
+   display: flex;
+   justify-content: center;
+   align-items:center;
+}
+
+#headerContainer
+{
+
+margin-left: 10px;
+height: 60px; 
+width: 95vw;
+background-color: #373f46;
+display: grid;
+grid-template-columns: auto 1fr 100px 100px 100px 100px 60px;
+grid-template-rows: 30px 30px;
+grid-template-areas:
+"wellcome . save install records logout ."
+"username . save install records logout .";
+
+.wellcome {
+    grid-area: wellcome;
+    height:30px;
+    @include flex();
+    }
+.username {
+    grid-area: username;
+    height:30px;
+    @include flex();
+}
+.save {
+    grid-area: save;
+    @include flex();
+}
+.install {
+    grid-area: install;
+    @include flex();  
+}
+.records {
+    grid-area: records;
+    @include flex();
+}
+.logout {
+    grid-area: logout;
+    @include flex();
+}
+
+.navItem:hover { background-color: #57bff7; }
+.navItem {
+    background: #32ACED;
+    height: 35px;
+    width: 80px;
+    border-radius: 5px;      
+    color: white;
+    font-weight: normal;
+    font-size: 16px;
+    font-family: $font;
+    text-decoration: none;
+    @include flex();
+    }
+  .text {  
+	text-transform: uppercase;
+    background: linear-gradient(to right, red 0%, yellow 100%);    
+	-webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    	font: {
+		size: 24px;
+        family: $font;
+        weight: 400;
+    }
+}
+}

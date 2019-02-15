@@ -1,7 +1,7 @@
 import React from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { SetBASIC } from "../store/actions/field";
+import { SetDATAOFFIELD } from "../store/actions/field";
 
 
 
@@ -18,26 +18,23 @@ class DataField extends React.Component {
             this.setState({
                 time: this.state.time + 1
             });
-        } else
-            if (this.props.Reducer.Timer === "STOP") {
-                this.setState({
-                    time: 0
-                });
-            }
+        } else if (this.props.Reducer.Timer === "STOP") {
+            this.setState({ time: 0 });
+        }
     }
 
     handleChange(event) {
         const val = event.target.value;
         this.setState({ count: val })
-        this.props.SetBASIC(val);
-        //this.props.SetCOUNTMINE(val).then(() => this.setState({ count: val }));
-        /*this.props.SetGAME("STARTGAME");*/
+        this.props.SetDATAOFFIELD({ Mine: 0, Move: 0, Timer: "STOP", Count: val });
     }
 
     render() {
 
         const arr = ["10", "15", "20", "25", "30", "35", "40"];
+
         return (
+
             <div id="dataOfField">
                 <label htmlFor="dropdown">Count of bombs </label>
                 <select id="dropdown" name="dropdown" value={this.state.count} onChange={this.handleChange.bind(this)} required>
@@ -45,8 +42,9 @@ class DataField extends React.Component {
                 </select>
                 <p>Mine : {this.props.Reducer.Mine}</p>
                 <p>Move : {this.props.Reducer.Move}</p>
-                <p>Time : {this.state.time}</p>
+                <p>Time : {this.props.Reducer.Timer === "STOP" ? "0" : this.state.time}</p>
             </div>
+
 
         )
     }
@@ -55,4 +53,4 @@ class DataField extends React.Component {
 
 
 export default connect(state => ({ Reducer: state.Reducer }),
-    dispatch => bindActionCreators({ SetBASIC }, dispatch))(DataField);
+    dispatch => bindActionCreators({ SetDATAOFFIELD }, dispatch))(DataField);

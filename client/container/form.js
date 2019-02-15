@@ -1,3 +1,7 @@
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { SetUSER } from "../store/actions/user";
+
 import React from 'react';
 import { Redirect } from 'react-router';
 import PostLogin from "../services/postLogin";
@@ -13,12 +17,13 @@ class FormClass extends React.Component {
         username: "", password: "", user: { username: "", _id: "" }
     }
 
-    handleName(event) { const obj = { username: "", _id: "" }; this.setState({ username: event.target.value, user: obj }); }
-    handlePassword(event) { const obj = { username: "", _id: "" }; this.setState({ password: event.target.value, user: obj }); }
+    handleName(event) { this.setState({ username: event.target.value, user: { username: "", _id: "" } }); }
+    handlePassword(event) { this.setState({ password: event.target.value, user: { username: "", _id: "" } }); }
 
     register = async (obj) => {
         try {
             const user = await PostRegister(obj);
+            this.props.SetUSER(user);
             this.setState({ user });
         }
         catch (error) {
@@ -29,6 +34,7 @@ class FormClass extends React.Component {
     auth = async (obj) => {
         try {
             const user = await PostLogin(obj);
+            this.props.SetUSER(user);
             this.setState({ user });
         }
         catch (error) {
@@ -53,6 +59,7 @@ class FormClass extends React.Component {
     }
 
     render() {
+
         if (this.state.user.username !== "") {
             return (<Redirect to="/game" />);
         } else {
@@ -107,4 +114,6 @@ class FormClass extends React.Component {
     }
 }
 
-export default FormClass;
+
+export default connect(state => ({ User: state.User }),
+    dispatch => bindActionCreators({ SetUSER }, dispatch))(FormClass);

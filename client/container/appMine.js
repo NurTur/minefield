@@ -1,6 +1,6 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { SetMINE, SetMOVE, SetTIMER, SetBASIC } from "../store/actions/field";
+import { SetDATAOFFIELD } from "../store/actions/field";
 
 import React from 'react';
 import Flag from "../components/flag";
@@ -17,28 +17,16 @@ import EncryptCode from "../services/encryptCells";
 class AppMine extends React.Component {
     state = { cells: [], EncryptCells: [], mine: [], passiv: false }
 
-
-
-
     componentWillMount() { this.setState({ cells: CellsAdress() }) }
     componentDidMount() { this.fieldEncrypt(this.props.Reducer.Count); }
+
     componentWillUpdate(nextProps, nextState) {
-        if (this.props.Reducer.Count !== nextProps.Reducer.Count) {
-            console.log("nur", nextProps);
-            //this.props.SetBASIC();
+        if (nextProps.Reducer.Timer === "STOP" && this.props.Reducer.Timer !== "STOP") {
             this.setState({ cells: CellsAdress(), mine: [], passiv: false });
-            /*if (this.props.Reducer.Game === "STARTGAME") {
-                this.props.SetBASIC();
-                this.setState({ cells: CellsAdress(), mine: [], passiv: false });
-            }*/
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        /*if (this.props.Reducer.Game === "STARTGAME") {
-            this.fieldEncrypt(this.props.Reducer.Count);
-            this.props.SetGAME("CONTINUE");
-        }*/
-        if (this.props.Reducer.Count !== prevProps.Reducer.Count) {
+        if (prevProps.Reducer.Timer !== "STOP" && this.props.Reducer.Timer === "STOP") {
             this.fieldEncrypt(this.props.Reducer.Count);
         }
     }
@@ -50,14 +38,16 @@ class AppMine extends React.Component {
         this.setState({ EncryptCells });
     };
 
+
     viewButton(X, Y, event) {
         event.preventDefault();
+        let { Mine, Move, Timer, Count } = this.props.Reducer;
 
         let oldFlag = this.state.cells[X][Y].flag;
         let cells = [...this.state.cells];
 
         if (event.type === 'click') {
-            this.props.SetTIMER('START');
+            Timer = 'START';
             cells[X][Y] = { status: "disabledButton", flag: oldFlag };
 
             if (this.state.EncryptCells[X][Y] === "") {
@@ -65,7 +55,9 @@ class AppMine extends React.Component {
             }
             else if (this.state.EncryptCells[X][Y] === "mine") {
                 OpenMines(cells, this.state.EncryptCells);
-                this.props.SetTIMER('BOOM').then(() => this.setState({ mine: [X, Y], passiv: true }))
+                Timer = 'BOOM';
+                this.setState({ mine: [X, Y], passiv: true });
+
             }
         }
         else if (event.type === 'contextmenu' && this.state.passiv === false) {
@@ -76,15 +68,18 @@ class AppMine extends React.Component {
         this.setState({ cells });
 
         // Redux store
-        if (this.props.Reducer.Timer === "START" || this.props.Reducer.Timer === "STOP") {
-            if (oldFlag === false && cells[X][Y].flag) { this.props.SetMINE(this.props.Reducer.Mine + 1); }
-            else if (oldFlag && cells[X][Y].flag === false) { this.props.SetMINE(this.props.Reducer.Mine - 1); }
-            this.props.SetMOVE(this.props.Reducer.Move + 1);
+        if (Timer === "START" || Timer === "STOP") {
+            if (oldFlag === false && cells[X][Y].flag) { Mine += 1; }
+            else if (oldFlag && cells[X][Y].flag === false) { Mine -= 1; }
+            Move += 1;
 
-            if (WinTest(cells) === 100 - parseInt(this.props.Reducer.Count)) {
-                this.props.SetTIMER('WIN').then(() => this.setState({ passiv: true }));
+            if (WinTest(cells) === 100 - parseInt(Count)) {
+                Timer = 'WIN';
+                this.setState({ passiv: true });
             }
         }
+        const obj = { Mine, Move, Timer, Count };
+        this.props.SetDATAOFFIELD(obj);
     }
 
 
@@ -116,16 +111,7 @@ class AppMine extends React.Component {
 }
 
 
+export default connect(state => ({ Reducer: state.Reducer }),
+    dispatch => bindActionCreators({ SetDATAOFFIELD }, dispatch))(AppMine);
 
-export default connect(
-    state => ({
-        Reducer: state.Reducer
-    }),
-    dispatch =>
-        bindActionCreators(
-            {
-                SetMINE, SetMOVE, SetTIMER, SetBASIC
-            },
-            dispatch
-        )
-)(AppMine);
+

@@ -1,6 +1,6 @@
 import { USER } from "../actions/user";
 
-const InitalState = { name: "", id: "" };
+const InitalState = { username: "", _id: "X" };
 
 export default function User(state = InitalState, action) {
     switch (action.type) {

@@ -9,6 +9,7 @@ import FormClass from "./container/form";
 import AppMine from "./container/appMine";
 import DataField from "./components/dataFeild";
 import ViewFooter from "./components/viewFooter";
+import HeaderGame from "./components/headerGame";
 
 import "./scss/game.scss";
 import "./scss/appMine.scss";
@@ -16,25 +17,21 @@ import "./scss/flag.scss";
 import "./scss/dataField.scss";
 import "./scss/viewFooter.scss";
 import "./scss/form.scss";
+import "./scss/headerGame.scss";
 
-const store = createStore(
-  BaseReducer,
-  applyMiddleware(thunk)
-);
+const store = createStore(BaseReducer);
 
-store.subscribe(() => console.log("erl", store.getState()));
-
-
+store.subscribe(() => console.log(store.getState()));
 
 class Game extends React.Component {
   render() {
     return (
       <div id="secondPage">
         <div className="container">
-          <div className="header"><div></div></div>
-          <div className="advert">{/*<div><DataField /></div>*/}</div>
+          <div className="header"><HeaderGame /></div>
+          <div className="advert"><div><DataField /></div></div>
           <div className="content"><div><AppMine /></div></div>
-          <div className="footer">{/*<div><ViewFooter /></div>*/}</div>
+          <div className="footer"><div><ViewFooter /></div></div>
           <div className="empty"></div>
         </div>
       </div >)

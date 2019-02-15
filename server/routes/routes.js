@@ -7,6 +7,10 @@ module.exports = function (app, USERS) {
     res.status(200).send({ username: "", _id: "X" });
   });
 
+  app.post('/', (req, res) => {
+    res.status(200).json(req.body);
+  });
+
   app.post('/login', passport.authenticate('local', { failureRedirect: '/' }), (req, res) => {
     res.status(200).send({ username: req.user.username, _id: req.user._id });
   });

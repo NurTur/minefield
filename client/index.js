@@ -10,6 +10,7 @@ import AppMine from "./container/appMine";
 import DataField from "./components/dataFeild";
 import ViewFooter from "./components/viewFooter";
 import HeaderGame from "./components/headerGame";
+import Records from "./components/records";
 
 import "./scss/game.scss";
 import "./scss/appMine.scss";
@@ -48,6 +49,7 @@ class Main extends React.Component {
         <Switch>
           <Route exact path="/" component={FormClass} />
           <Route path="/game" component={Game} />
+          <Route path="/records" component={Records} />
         </Switch>
       </div>
     </Router>)

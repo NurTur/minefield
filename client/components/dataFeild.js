@@ -6,7 +6,7 @@ import { SetDATAOFFIELD } from "../store/actions/field";
 
 
 class DataField extends React.Component {
-    state = { count: 10, time: 0, name: "" }
+    state = { time: 0 }
 
     componentDidMount() {
         this.timerID = setInterval(() => this.tick(), 1000);
@@ -15,6 +15,7 @@ class DataField extends React.Component {
 
     tick() {
         if (this.props.Reducer.Timer === "START") {
+            this.props.Reducer.Second = this.state.time + 1;
             this.setState({
                 time: this.state.time + 1
             });
@@ -26,7 +27,7 @@ class DataField extends React.Component {
     handleChange(event) {
         const val = event.target.value;
         this.setState({ count: val })
-        this.props.SetDATAOFFIELD({ Mine: 0, Move: 0, Timer: "STOP", Count: val });
+        this.props.SetDATAOFFIELD({ Mine: 0, Move: 0, Timer: "STOP", Count: val, Second: 0 });
     }
 
     render() {

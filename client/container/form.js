@@ -7,10 +7,6 @@ import { Redirect } from 'react-router';
 import PostLogin from "../services/postLogin";
 import PostRegister from "../services/postRegister";
 
-
-
-
-
 class FormClass extends React.Component {
     state = {
         text: "Sign Up", id: "nav1",

@@ -2,6 +2,7 @@ import React from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { SetDATAOFFIELD } from "../store/actions/field";
+import PostRecords from "../services/postRecords";
 
 
 class ViewFooter extends React.Component {
@@ -20,14 +21,25 @@ class ViewFooter extends React.Component {
     }
 
 
+    postRecord = async (data) => {
+        const result = await PostRecords(data);
+        console.log("=>", result);
+
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (this.props.Reducer.Timer === "BOOM") {
+
+            this.postRecord(this.props);
+
             const obj = { Mine: 0, Move: 0, Timer: "STOP" };
             setTimeout(() => {
                 (window.confirm("YOU LOSE. Do you Want to play again?") && this.props.SetDATAOFFIELD(obj));
             }, 500);
+
         }
         else if (this.props.Reducer.Timer === "WIN") {
+
             const obj = { Mine: 0, Move: 0, Timer: "STOP" };
             setTimeout(() => {
                 (window.confirm("PERFECT, YOU WON !!!. Do you Want to play again?") && this.props.SetDATAOFFIELD(obj));

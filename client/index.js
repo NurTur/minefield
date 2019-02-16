@@ -20,6 +20,7 @@ import "./scss/viewFooter.scss";
 import "./scss/form.scss";
 import "./scss/headerGame.scss";
 
+
 const store = createStore(BaseReducer);
 
 store.subscribe(() => console.log(store.getState()));

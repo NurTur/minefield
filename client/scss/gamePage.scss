@@ -1,0 +1,115 @@
+@mixin flex(){ 
+   display: flex;
+   justify-content: center;
+   align-items:center;
+}
+
+#gamePage {
+
+ width: 100vw;
+ height: 100%;
+    background: #1D2733;
+    display: grid;
+    grid-template-columns:auto 1fr auto;
+    grid-template-rows: 1fr auto;
+    grid-template-areas:
+      "advert field  empty"
+      ".      footer empty";
+      
+  .advert {
+    background-color: #1D2733;
+    grid-area: advert;
+    min-width: 206px;
+    width: 20vw;
+    @include flex();
+    flex-direction: column;
+  }
+  
+  .content {
+  grid-area: field;
+  background-color: #1D2733;
+  @include flex();
+  }
+  
+  .footer {
+    background: #1D2733;
+    grid-area: footer;
+    height: 100px;
+     @include flex();
+    color:white;
+    font-weight: 400;
+    font-size: 20px;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+  }  
+  .empty {
+    background-color: #1D2733;
+    grid-area: empty;
+    width:20vw;  
+  }
+}
+/*************************** DataField.js ***************************************/
+
+#dataOfField{
+  color:white;
+  font-weight: 400;
+  font-size: 20px;
+  font-family: "Roboto", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+  
+  label {
+  padding-bottom:10px;
+  }
+  #dropdown {
+  width: 50px;
+  height: 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f1f1f1;
+  }
+}
+/*************************** AppMine.js ***************************************/
+  #fieldContainer
+  {
+    
+    font-size: 2px;
+    width: 520px;
+    height: 100%;
+   
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 2px;
+    
+   .disabledButton
+   {
+     width:50px;
+    height: 50px; 
+    background-color: white; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    .picture {
+    width:44px;
+    height: 44px;
+    }
+   }
+  
+   .activeButton {   
+    width:50px;
+    height: 50px; 
+    background-color: grey;
+    border-bottom: solid 2px black;
+    border-right: solid 2px black;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+   
+} }

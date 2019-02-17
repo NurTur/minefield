@@ -105,7 +105,7 @@ class AppMine extends React.Component {
     }
 
     render() {
-        return (<div id="first_container">{this.state.cells.map((d, x) => d.map((d2, y) => this.handleClick(d[y], x, y)))}
+        return (<div id="fieldContainer">{this.state.cells.map((d, x) => d.map((d2, y) => this.handleClick(d[y], x, y)))}
         </div>)
     }
 }

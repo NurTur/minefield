@@ -1,0 +1,19 @@
+table {
+  font-family: arial, sans-serif;
+  color: gainsboro;
+  border-collapse: collapse;
+  width: 80%;
+  td, th {
+  border: 1px solid #dddddd;
+  padding: 10px;
+  text-align: center;
+}
+.column1 { width: 10%; }
+.column2 { width: 20%; }
+.column3 { width: 10%; }
+
+
+tr:nth-child(even) {
+  background-color: #384B5C;
+}
+}

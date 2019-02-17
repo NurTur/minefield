@@ -1,0 +1,28 @@
+#PageView {
+ position: fixed;
+
+   margin:-8px;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "headerView"
+      "mainView";
+    header {  
+    background: #373f46;  
+    grid-area: headerView;
+    display: flex;
+    justify-content: left;
+    align-items:center;
+    }
+     main {
+    grid-area: mainView;
+    background-color: #1D2733;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    }
+}
+
+   

@@ -1,17 +1,33 @@
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { SetUSER } from "../store/actions/user";
+import { SetRECORDSDATA } from "../store/actions/records";
 
 import React from 'react';
 import { Redirect } from 'react-router';
 import PostLogin from "../services/postLogin";
 import PostRegister from "../services/postRegister";
+import GetRecords from "../services/getRecords";
 
 class FormClass extends React.Component {
     state = {
         text: "Sign Up", id: "nav1",
         username: "", password: "", user: { username: "", _id: "" }
     }
+
+    componentDidMount() {
+        this.onGetRecords();
+    }
+
+    onGetRecords = async () => {
+        try {
+            const result = await GetRecords();
+            this.props.SetRECORDSDATA(result);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     handleName(event) { this.setState({ username: event.target.value, user: { username: "", _id: "" } }); }
     handlePassword(event) { this.setState({ password: event.target.value, user: { username: "", _id: "" } }); }
@@ -81,35 +97,43 @@ class FormClass extends React.Component {
             }
 
 
-            return (
-                <div id="firstPage">
-                    <div className="container">
-                        <header className="header">
-                            <nav id={id} onClick={this.handleHeader.bind(this)}>{text}</nav>
-                        </header>
-                        <main className="main">
-                            <div className="box">
-                                <section id="sec1">{resultSubmit}</section>
-                                <section id="sec2">
-                                    <form className="ui-form">
-                                        <div className="form-row">
-                                            <input type="text" id="username" onChange={this.handleName.bind(this)} value={username2} required />
-                                            <label htmlFor="username">USERNAME</label>
-                                        </div>
-                                        <div className="form-row">
-                                            <input type="password" id="password" onChange={this.handlePassword.bind(this)} value={password2} required />
-                                            <label htmlFor="password">PASSWORD</label>
-                                        </div>
-                                    </form>
-                                    <input type="submit" className={submitView} value={formtext} onClick={this.handleClick.bind(this)} />
-                                </section>
+            return (<div id="PageView">
+                <header>
+                    <div id="headerPage">
+                        <div className="headerContainer" >
+                            <div className="navig">
+                                <nav id={id} onClick={this.handleHeader.bind(this)}>{text}</nav>
                             </div>
-                        </main>
-                    </div></div>)
+                        </div>
+                    </div>
+                </header>
+                <main>
+                    <div id="formContainer">
+                        <section id="sec1">{resultSubmit}</section>
+                        <section id="sec2">
+                            <form className="ui-form">
+                                <div className="form-row">
+                                    <input type="text" id="username" onChange={this.handleName.bind(this)} value={username2} required />
+                                    <label htmlFor="username">USERNAME</label>
+                                </div>
+                                <div className="form-row">
+                                    <input type="password" id="password" onChange={this.handlePassword.bind(this)} value={password2} required />
+                                    <label htmlFor="password">PASSWORD</label>
+                                </div>
+                            </form>
+                            <input type="submit" className={submitView} value={formtext} onClick={this.handleClick.bind(this)} />
+                        </section>
+                    </div>
+                </main>
+            </div>
+
+
+            )
         }
     }
 }
 
 
-export default connect(state => ({ User: state.User }),
-    dispatch => bindActionCreators({ SetUSER }, dispatch))(FormClass);
+export default connect(state => ({ User: state.User, Records: state.Records }),
+    dispatch => bindActionCreators({ SetUSER, SetRECORDSDATA }, dispatch))(FormClass);
+

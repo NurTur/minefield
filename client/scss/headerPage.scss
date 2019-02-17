@@ -5,49 +5,48 @@ $font: "Roboto", Helvetica, Arial, sans-serif;
    align-items:center;
 }
 
-#headerContainer
+#headerPage {
+    background-color:#373f46;
+    height:80px;
+    display: flex;
+    justify-content: left;
+    align-items:center;
+  
+.headerContainer
 {
-
 margin-left: 10px;
 height: 60px; 
-width: 95vw;
+width: 85vw;
+margin-left: 5vw;
 background-color: #373f46;
 display: grid;
-grid-template-columns: auto 1fr 100px 100px 100px 100px 60px;
+grid-template-columns: auto 1fr;
 grid-template-rows: 30px 30px;
 grid-template-areas:
-"wellcome . save install records logout ."
-"username . save install records logout .";
+"wellcome navig"
+"username navig";
 
-.wellcome {
+.greeting1 {
     grid-area: wellcome;
     height:30px;
     @include flex();
-    }
-.username {
+}
+.greeting2 {
     grid-area: username;
     height:30px;
     @include flex();
 }
-.save {
-    grid-area: save;
-    @include flex();
-}
-.install {
-    grid-area: install;
-    @include flex();  
-}
-.records {
-    grid-area: records;
-    @include flex();
-}
-.logout {
-    grid-area: logout;
-    @include flex();
+
+.navig {
+    grid-area: navig;
+    display: flex;
+    justify-content: flex-end;
+    align-items:center;
 }
 
-.navItem:hover { background-color: #57bff7; }
-.navItem {
+#nav1:hover { background-color: #57bff7; }
+#nav1 {
+    margin-right: 50px;
     background: #32ACED;
     height: 35px;
     width: 80px;
@@ -59,7 +58,22 @@ grid-template-areas:
     text-decoration: none;
     @include flex();
     }
-  .text {  
+#nav2:hover { background-color: #E0A950; }
+#nav2 {
+    margin-right: 50px;
+    background: #E0A905;
+    height: 35px;
+    width: 80px;
+    border-radius: 5px;      
+    color: white;
+    font-weight: normal;
+    font-size: 16px;
+    font-family: $font;
+    text-decoration: none;
+    @include flex();
+    }    
+
+   .text {  
 	text-transform: uppercase;
     background: linear-gradient(to right, red 0%, yellow 100%);    
 	-webkit-background-clip: text;
@@ -69,5 +83,6 @@ grid-template-areas:
         family: $font;
         weight: 400;
     }
+}
 }
 }

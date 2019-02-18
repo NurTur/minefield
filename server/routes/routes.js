@@ -1,37 +1,47 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 
-module.exports = function (app, USERS) {
+module.exports = function (app, USERS, RECORDS) {
+
+  app.get('/api/records', async (req, res) => {
+    const data = await RECORDS.find({});
+    res.status(200).json(data[0]);
+  });
+
+  app.post('/api/records', async (req, res) => {
+    const data = await RECORDS.find({});
+    data[0].records = req.body.records;
+    await data[0].save();
+    res.status(201).json(data[0].records);
+  });
+
+
+
+
+
+
+
 
   app.get('/', (req, res) => {
     res.status(200).send({ username: "", _id: "X" });
   });
 
   app.post('/records', async (req, res) => {
-    const Obj = await USERS.findOne({ _id: req.body._id });
+    const Obj = await USERS.findById({ _id: req.body._id });
+    const { arr } = req.body;
     const X = [...Obj.myrecord];
-    const { Count, Move, Second } = req.body;
 
-    switch (Count) {
-      case "10": if (X[0] === 0 || X[0] > Move) { X[0] = Move; }
-        if (X[1] === 0 || X[1] > Second) { X[1] = Second; } break;
-      case "15": if (X[2] === 0 || X[2] > Move) { X[2] = Move; }
-        if (X[3] === 0 || X[3] > Second) { X[3] = Second; } break;
-      case "20": if (X[4] === 0 || X[4] > Move) { X[4] = Move; }
-        if (X[5] === 0 || X[5] > Second) { X[5] = Second; } break;
-      case "25": if (X[6] === 0 || X[6] > Move) { X[6] = Move; }
-        if (X[7] === 0 || X[7] > Second) { X[7] = Second; } break;
-      case "30": if (X[8] === 0 || X[8] > Move) { X[8] = Move; }
-        if (X[9] === 0 || X[9] > Second) { X[9] = Second; } break;
-      case "35": if (X[10] === 0 || X[10] > Move) { X[10] = Move; }
-        if (X[11] === 0 || X[11] > Second) { X[11] = Second; } break;
-      case "40": if (X[12] === 0 || X[12] > Move) { X[12] = Move; }
-        if (X[13] === 0 || X[13] > Second) { X[13] = Second; } break;
-      default: break;
-    }
+    [...Obj.myrecord].forEach((e, i) => {
+      if (e > arr[i].answer) {
+        X[i] = arr[i].answer;
+      }
+      if (e === 0 && arr[i].answer > 0) {
+        X[i] = arr[i].answer;
+      }
+    });
     Obj.myrecord = X;
     await Obj.save();
-    res.status(201).send(X);
+    res.status(201).json(req.body);
   });
 
 

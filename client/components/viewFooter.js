@@ -2,10 +2,8 @@ import React from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { SetDATAOFFIELD } from "../store/actions/field";
-import { SetRECORDSDATA } from "../store/actions/records";
+import PostRecords2 from "../services/postRecords2";
 
-import PostRecords from "../services/postRecords";
-import GetRecords from "../services/getRecords";
 
 class ViewFooter extends React.Component {
 
@@ -22,20 +20,42 @@ class ViewFooter extends React.Component {
         return false;
     }
 
-
-    onRecords = async (data) => {
+    onRecordsDB = async () => {
         try {
-            await PostRecords(data);
-            const result = await GetRecords();
-            this.props.SetRECORDSDATA(result);
+            const result = await PostRecords2({ records: this.props.Records });
+            console.log("result", result);
         } catch (error) {
             console.log(error);
         }
     }
 
+    onRecordsStore = async (data) => {
+        const { Count, Move, Second } = data;
+        const arr = ["10", "15", "20", "25", "30", "35", "40"];
+        let test = false;
+        arr.forEach((e, i) => {
+            const test1 = (this.props.Records[i * 2].answer === 0 && this.props.Records[i * 2].answer < Move && Count === e);
+            const test2 = (Move > 0 && this.props.Records[i * 2].answer > Move && Count === e);
+            const test3 = (this.props.Records[i * 2 + 1].answer === 0 && this.props.Records[i * 2 + 1].answer < Second && Count === e);
+            const test4 = (Second > 0 && this.props.Records[i * 2 + 1].answer > Second && Count === e);
+            if (test1 || test2) {
+                this.props.Records[i * 2].answer = Move;
+                this.props.Records[i * 2].name = this.props.User.username;
+                test = true;
+            }
+            if (test3 || test4) {
+                this.props.Records[i * 2 + 1].answer = Second;
+                this.props.Records[i * 2 + 1].name = this.props.User.username;
+                test = true;
+            }
+        });
+        if (test) {
+            this.onRecordsDB();
+        }
+    }
     componentDidUpdate(prevProps, prevState) {
         if (this.props.Reducer.Timer === "BOOM") {
-            this.onRecords(Object.assign({}, this.props.Reducer, { _id: this.props.User._id }));
+            this.onRecordsStore(this.props.Reducer);
             const obj = { Mine: 0, Move: 0, Timer: "STOP" };
             setTimeout(() => {
                 (window.confirm("YOU LOSE. Do you Want to play again?") && this.props.SetDATAOFFIELD(obj));
@@ -43,6 +63,7 @@ class ViewFooter extends React.Component {
 
         }
         else if (this.props.Reducer.Timer === "WIN") {
+
             const obj = { Mine: 0, Move: 0, Timer: "STOP" };
             setTimeout(() => {
                 (window.confirm("PERFECT, YOU WON !!!. Do you Want to play again?") && this.props.SetDATAOFFIELD(obj));
@@ -62,4 +83,4 @@ class ViewFooter extends React.Component {
 
 export default connect(
     state => ({ Reducer: state.Reducer, User: state.User, Records: state.Records }),
-    dispatch => bindActionCreators({ SetDATAOFFIELD, SetRECORDSDATA }, dispatch))(ViewFooter);
+    dispatch => bindActionCreators({ SetDATAOFFIELD }, dispatch))(ViewFooter);

@@ -10,7 +10,7 @@ import { CellsAdress } from "./cellsAdress";
 import { WinTest } from "./winTest";
 
 import ViewMines from "../components/viewMines";
-import EncryptCode from "../services/encryptCells";
+import EncryptCode from "./encryptCells";
 
 
 
@@ -18,25 +18,28 @@ class AppMine extends React.Component {
     state = { cells: [], EncryptCells: [], mine: [], passiv: false }
 
     componentWillMount() { this.setState({ cells: CellsAdress() }) }
-    componentDidMount() { this.fieldEncrypt(this.props.Reducer.Count); }
+    componentDidMount() {
+        const EncryptCells = EncryptCode(this.props.Reducer.Count);
+        console.log(EncryptCells);
+        this.setState({ EncryptCells });
+    }
 
     componentWillUpdate(nextProps, nextState) {
-        if (nextProps.Reducer.Timer === "STOP" && this.props.Reducer.Timer !== "STOP") {
+        const test1 = nextProps.Reducer.Timer === "STOP" && this.props.Reducer.Timer !== "STOP";
+        const test2 = nextProps.Reducer.Timer === "STOP" && this.props.Reducer.Count !== nextProps.Reducer.Count;
+        if (test1 || test2) {
             this.setState({ cells: CellsAdress(), mine: [], passiv: false });
         }
     }
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.Reducer.Timer !== "STOP" && this.props.Reducer.Timer === "STOP") {
-            this.fieldEncrypt(this.props.Reducer.Count);
+        const test1 = prevProps.Reducer.Timer !== "STOP" && this.props.Reducer.Timer === "STOP";
+        const test2 = this.props.Reducer.Timer === "STOP" && this.props.Reducer.Count !== prevProps.Reducer.Count;;
+        if (test1 || test2) {
+            const EncryptCells = EncryptCode(this.props.Reducer.Count);
+            console.log(EncryptCells);
+            this.setState({ EncryptCells });
         }
     }
-
-
-    fieldEncrypt = async (mine_count) => {
-        const EncryptCells = await EncryptCode(mine_count);
-        console.log(EncryptCells);
-        this.setState({ EncryptCells });
-    };
 
 
     viewButton(X, Y, event) {

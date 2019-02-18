@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 
 
 class RecordClass extends React.Component {
+
     render() {
         return <div id="PageView">
             <header>
@@ -46,4 +47,4 @@ class RecordClass extends React.Component {
 }
 
 
-export default connect(state => ({ Reducer: state.Reducer, User: state.User, Records: state.Records }))(RecordClass);
+export default connect(state => ({ User: state.User, Records: state.Records }))(RecordClass);

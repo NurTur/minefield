@@ -7,7 +7,7 @@ import React from 'react';
 import { Redirect } from 'react-router';
 import PostLogin from "../services/postLogin";
 import PostRegister from "../services/postRegister";
-import GetRecords2 from "../services/getRecords2";
+import GetRecords from "../services/getRecords";
 
 class FormClass extends React.Component {
     state = {
@@ -21,7 +21,7 @@ class FormClass extends React.Component {
 
     onGetRecords = async () => {
         try {
-            const res = await GetRecords2();
+            const res = await GetRecords();
             this.props.SetRECORDSDATA(res);
         } catch (error) {
             console.log(error);

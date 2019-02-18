@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { SetDATAOFFIELD } from "../store/actions/field";
-import PostRecords2 from "../services/postRecords2";
+import PostRecords from "../services/postRecords";
 
 
 class ViewFooter extends React.Component {
@@ -22,8 +22,7 @@ class ViewFooter extends React.Component {
 
     onRecordsDB = async () => {
         try {
-            const result = await PostRecords2({ records: this.props.Records });
-            console.log("result", result);
+            await PostRecords({ records: this.props.Records });
         } catch (error) {
             console.log(error);
         }

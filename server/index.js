@@ -9,14 +9,11 @@ const USERS = mongoose.model("users", require("./model/modelUsers"));
 const RECORDS = mongoose.model("records", require("./model/modelRecords"));
 
 const routes = require('./routes/routes');
-const record = require('./routes/record');
-
 const auth = require('./auth/auth');
 const { PORT, SESSION_SECRET, DATABASE } = require("./config/keys");
 const cors = require("cors");
 
 app.use(cors());
-//app.use('/client', express.static(__dirname + '/client'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

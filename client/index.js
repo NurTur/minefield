@@ -19,7 +19,7 @@ import "./scss/flag.scss";
 
 const store = createStore(BaseReducer);
 
-store.subscribe(() => console.log(store.getState()));
+//store.subscribe(() => console.log(store.getState()));
 
 class Main extends React.Component {
   state = { FormClass: null, GameClass: null, RecordClass: null }

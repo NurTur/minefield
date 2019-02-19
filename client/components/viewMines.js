@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function ViewMines(props) {
     const { value, mine, item } = props;
@@ -42,6 +43,18 @@ function ViewMines(props) {
     else {
         return <button className={item.status} key={key} disabled></button>
     }
+};
+
+ViewMines.propTypes = {
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]).isRequired,
+    mine: PropTypes.arrayOf(PropTypes.number).isRequired,
+    item: PropTypes.shape({
+        status: PropTypes.string.isRequired,
+        flag: PropTypes.bool.isRequired
+    }).isRequired
 };
 
 export default ViewMines;

@@ -1,4 +1,5 @@
 export default (count_mine) => {
+
     let countMines = parseInt(count_mine);
 
     let arr = [];
@@ -32,3 +33,4 @@ export default (count_mine) => {
 
     return arr;
 };
+

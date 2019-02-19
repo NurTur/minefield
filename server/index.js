@@ -1,24 +1,25 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const app = express();
+const Router = express.Router();
 
+const bodyParser = require('body-parser');
 const session = require('express-session');
 const mongoose = require('mongoose');
-const app = express();
 const passport = require('passport');
-const USERS = mongoose.model("users", require("./model/modelUsers"));
-const RECORDS = mongoose.model("records", require("./model/modelRecords"));
-
-const routes = require('./routes/routes');
-const auth = require('./auth/auth');
-const { PORT, SESSION_SECRET, DATABASE } = require("./config/keys");
 const cors = require("cors");
+
+const USERS = mongoose.model("users", require("./models/modelUsers"));
+const RECORDS = mongoose.model("records", require("./models/modelRecords"));
+
+const Route = require('./route/route');
+const Auth = require('./auth/auth');
+
+const { PORT, SESSION_SECRET, DATABASE } = require("./config/keys");
+
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
-
-app.set('view engine', 'ejs')
 
 
 /*********************************************/
@@ -37,9 +38,9 @@ app.use(passport.session());
 mongoose.connect(DATABASE, { useNewUrlParser: true })
   .then(() => {
     console.log("MongoDB Databases connected")
-    auth(USERS);
-    routes(app, USERS, RECORDS);
-
+    Auth(USERS);
+    Route(Router, USERS, RECORDS);
+    app.use("/api/mineGame", Router);
 
     app.listen(PORT || 3000, () => {
       console.log("Listening on port " + PORT);

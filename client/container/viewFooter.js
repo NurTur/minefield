@@ -22,13 +22,14 @@ class ViewFooter extends React.Component {
 
     onRecordsDB = async () => {
         try {
-            await PostRecords({ records: this.props.Records });
+            const obj = { records: this.props.Records };
+            await PostRecords(obj);
         } catch (error) {
             console.log(error);
         }
     }
 
-    onRecordsStore = async (data) => {
+    onRecordsStore = (data) => {
         const { Count, Move, Second } = data;
         const arr = ["10", "15", "20", "25", "30", "35", "40"];
         let test = false;
@@ -54,7 +55,6 @@ class ViewFooter extends React.Component {
     }
     componentDidUpdate(prevProps, prevState) {
         if (this.props.Reducer.Timer === "BOOM") {
-            this.onRecordsStore(this.props.Reducer);
             const obj = { Mine: 0, Move: 0, Timer: "STOP" };
             setTimeout(() => {
                 (window.confirm("YOU LOSE. Do you Want to play again?") && this.props.SetDATAOFFIELD(obj));
@@ -62,7 +62,7 @@ class ViewFooter extends React.Component {
 
         }
         else if (this.props.Reducer.Timer === "WIN") {
-
+            this.onRecordsStore(this.props.Reducer);
             const obj = { Mine: 0, Move: 0, Timer: "STOP" };
             setTimeout(() => {
                 (window.confirm("PERFECT, YOU WON !!!. Do you Want to play again?") && this.props.SetDATAOFFIELD(obj));

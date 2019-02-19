@@ -13,7 +13,7 @@ class RecordClass extends React.Component {
                         <div className="greeting1"><div className="text">Wellcome,</div></div>
                         <div className="greeting2"><div className="text">{this.props.User.username} !!!</div></div>
                         <div className="navig">
-                            <NavLink to="/game" id="nav1">Game</NavLink>
+                            <NavLink to="/game" id="nav1" >Game</NavLink>
                             <NavLink to="/" id="nav1">Logout</NavLink>
                         </div>
                     </div>

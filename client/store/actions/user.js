@@ -1,4 +1,4 @@
 export const USER = "USER";
-export const SetUSER = (obj) => { return { type: USER, payload: obj } };
+export const SetUSER = (obj) => ({ type: USER, payload: obj });
 
 

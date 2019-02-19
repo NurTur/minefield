@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { SetDATAOFFIELD } from "../store/actions/field";
@@ -6,7 +7,7 @@ import { SetDATAOFFIELD } from "../store/actions/field";
 
 
 class DataField extends React.Component {
-    state = { time: 0 }
+    state = { time: this.props.Reducer.Second }
 
     componentDidMount() {
         this.timerID = setInterval(() => this.tick(), 1000);
@@ -27,7 +28,6 @@ class DataField extends React.Component {
 
     handleChange(event) {
         const val = event.target.value;
-        this.setState({ count: val })
         this.props.SetDATAOFFIELD({ Mine: 0, Move: 0, Timer: "STOP", Count: val, Second: 0 });
     }
 
@@ -36,14 +36,13 @@ class DataField extends React.Component {
     }
 
     render() {
-
         const arr = ["10", "15", "20", "25", "30", "35", "40"];
 
         return (
 
             <div id="dataOfField">
                 <label htmlFor="dropdown">Count of bombs </label>
-                <select id="dropdown" name="dropdown" value={this.state.count} onChange={this.handleChange.bind(this)} required>
+                <select id="dropdown" name="dropdown" value={this.props.Reducer.Count} onChange={this.handleChange.bind(this)} required>
                     {arr.map((d, i) => <option value={d} key={i}>{d}</option>)}
                 </select>
                 <p>Mine : {this.props.Reducer.Mine}</p>
@@ -55,7 +54,6 @@ class DataField extends React.Component {
         )
     }
 };
-
 
 
 export default connect(state => ({ Reducer: state.Reducer }),

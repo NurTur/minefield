@@ -2,6 +2,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { SetUSER } from "../store/actions/user";
 import { SetRECORDSDATA } from "../store/actions/records";
+import { SetDATAOFFIELD } from "../store/actions/field";
 
 import React from 'react';
 import { Redirect } from 'react-router';
@@ -35,7 +36,12 @@ class FormClass extends React.Component {
     register = async (obj) => {
         try {
             const user = await PostRegister(obj);
-            this.props.SetUSER(user);
+            if (user._id !== this.props.User._id) {
+                this.props.StateSaver.cells = [];
+                this.props.StateSaver.EncryptCells = [];
+                this.props.SetDATAOFFIELD({ Mine: 0, Move: 0, Timer: "STOP", Count: "10", Second: 0 });
+                this.props.SetUSER(user);
+            }
             this.setState({ user });
         }
         catch (error) {
@@ -46,7 +52,12 @@ class FormClass extends React.Component {
     auth = async (obj) => {
         try {
             const user = await PostLogin(obj);
-            this.props.SetUSER(user);
+            if (user._id !== this.props.User._id) {
+                this.props.StateSaver.cells = [];
+                this.props.StateSaver.EncryptCells = [];
+                this.props.SetDATAOFFIELD({ Mine: 0, Move: 0, Timer: "STOP", Count: "10", Second: 0 });
+                this.props.SetUSER(user);
+            }
             this.setState({ user });
         }
         catch (error) {
@@ -126,14 +137,12 @@ class FormClass extends React.Component {
                     </div>
                 </main>
             </div>
-
-
             )
         }
     }
 }
 
 
-export default connect(state => ({ User: state.User, Records: state.Records }),
-    dispatch => bindActionCreators({ SetUSER, SetRECORDSDATA }, dispatch))(FormClass);
+export default connect(state => ({ User: state.User, Records: state.Records, Reducer: state.Reducer, StateSaver: state.StateSaver }),
+    dispatch => bindActionCreators({ SetUSER, SetRECORDSDATA, SetDATAOFFIELD }, dispatch))(FormClass);
 

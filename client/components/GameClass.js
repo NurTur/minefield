@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import DataField from "./dataFeild";
+import DataField from "../container/dataFeild";
 import AppMine from "../container/appMine";
-import ViewFooter from "./viewFooter";
+import ViewFooter from "../container/viewFooter";
 
 class GameClass extends React.Component {
     render() {

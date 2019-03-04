@@ -33,6 +33,7 @@
     "babel-loader": "^8.0.5",
     "bcrypt": "^3.0.4",
     "copy-webpack-plugin": "^4.6.0",
+    "cors": "^2.8.5",
     "css-loader": "^2.1.0",
     "dotenv": "^6.2.0",
     "express-session": "^1.15.6",

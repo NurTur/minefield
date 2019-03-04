@@ -36,6 +36,7 @@ class FormClass extends React.Component {
     register = async (obj) => {
         try {
             const user = await PostRegister(obj);
+            console.log(user);
             if (user._id !== this.props.User._id) {
                 this.props.StateSaver.cells = [];
                 this.props.StateSaver.EncryptCells = [];
